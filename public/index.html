@@ -1,14 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta charset="utf-8" />
+  <!-- <meta http-equiv="Content-Security-Policy" content="
+            frame-ancestors 'self';
+            default-src     'self'   'unsafe-inline';
+            script-src      'self'   'unsafe-inline'; 
+            style-src       'self'   'unsafe-inline';
+            "> -->
+  <title>Checkout</title>
+  <script crossorigin src="https://pay.conekta.com/v1.0/js/conekta-checkout.min.js"></script>
+  <!-- En este archivo esta la config del componente -->
 </head>
 
 <body>
-  HELLO WORLD!
+  <div id="cardView" style="height: 714px"></div>
+  <script type="text/javascript">
+    const options = {
+      backgroundMode: 'darkMode', //lightMode o darkMode
+      colorPrimary: '#081133', //botones y bordes
+      colorText: '#585987', // títulos
+      colorLabel: '#585987', // input labels
+      inputType: 'minimalMode', // minimalMode o flatMode
+    };
+    const config = {
+      locale: 'es',
+      publicKey: 'key_LiAtPJz5mlEsUqLzHKBKRCi',
+      targetIFrame: '#cardView',
+    };
+
+    const callbacks = {
+      // Evento que permitirá saber que el token se creado de forma satisfactoria, es importante que se consuman los datos que de él derivan.
+      onCreateTokenSucceeded: function (token) {
+        console.log('token', token);
+      },
+      // Evento que permitirá saber que el token se creado de manera incorrecta, es importante que se consuman los datos que de él derivan y se hagan las correciones pertinentes.
+      onCreateTokenError: function (error) {
+        console.log(error);
+      },
+      // Evento que notifica cuando finalizó la carga del component/tokenizer
+      onGetInfoSuccess: function (loadingTime) {
+        console.log('loading time en milisegundos', loadingTime.initLoadTime);
+      }
+    };
+    window.ConektaCheckoutComponents.Card({
+      config,
+      callbacks,
+      options
+    });
+  </script>
 </body>
 
 </html>
